@@ -22,11 +22,12 @@ const productSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
     },
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
+    // user: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
     quantity: {
       type: Number,
     },

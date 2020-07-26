@@ -64,7 +64,9 @@ router.post("/create", auth, (req, res) => {
 
 router.get("/:productid", auth, async (req, res) => {
   try {
-    const product = await Product.findById(req.params.productid);
+    const product = await Product.findById(req.params.productid).select(
+      "-photo"
+    );
     // product.photo = undefined;
     res.json(product);
   } catch (error) {
@@ -102,6 +104,7 @@ router.put("/update", [auth, loadproduct], async (req, res) => {
         error: "Image could not be uploaded",
       });
     }
+    // console.log(fields, files);
     // const id = req.params.productid;
     // let product = Product.findByIdAndUpdate(id, fields, {
     //   new: true,
@@ -109,7 +112,7 @@ router.put("/update", [auth, loadproduct], async (req, res) => {
     // });
     // let product = Product.findById(req.params.productid);
     let product = req.product;
-    console.log(product);
+    // console.log(product);
 
     product = _.extend(product, fields);
     // console.log(product);

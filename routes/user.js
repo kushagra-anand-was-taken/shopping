@@ -121,4 +121,26 @@ router.post(
   }
 );
 
+router.put("/update", auth, async (req, res) => {
+  const { name, password } = req.body;
+  try {
+    const user = await User.findById(req.user.id);
+    if (name) {
+      user.name = name;
+    }
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+
+      user.password = await bcrypt.hash(password, salt);
+    }
+    await user.save();
+    res.json(user);
+  } catch (error) {
+    console.log("USER UPDATE ERROR", error);
+    return res.status(400).json({
+      error: "User update failed",
+    });
+  }
+});
+
 module.exports = router;
