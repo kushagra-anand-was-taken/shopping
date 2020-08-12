@@ -7,7 +7,7 @@ const Navbar = () => {
   let history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const { isAuthenticated, loading, user } = auth;
+  const { isAuthenticated, user } = auth;
 
   const isActive = (history, path) => {
     if (history.location.pathname === path) {
@@ -44,6 +44,20 @@ const Navbar = () => {
                 to="/signup"
               >
                 Signup
+              </Link>
+            </li>
+          </>
+        )}
+
+        {isAuthenticated && (
+          <>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                style={isActive(history, "/shop")}
+                to="/shop"
+              >
+                Shop
               </Link>
             </li>
           </>

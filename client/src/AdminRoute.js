@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const AdminRoute = ({ component: Component, ...rest }) => {
   const auth = useSelector((state) => state.auth);
-  const { isAuthenticated, loading, user } = auth;
+  const { isAuthenticated, loading } = auth;
 
   return (
     <Route

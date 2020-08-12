@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "./navbar";
-import { useSelector } from "react-redux";
+import "../../styles.css";
 
 const Layout = ({
   title = "Title",
@@ -8,8 +8,6 @@ const Layout = ({
   className,
   children,
 }) => {
-  const auth = useSelector((state) => state.auth);
-  const { loading, isAuthenticated, user } = auth;
   return (
     <div>
       <Navbar />
