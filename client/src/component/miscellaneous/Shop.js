@@ -14,7 +14,7 @@ const Shop = () => {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
   const product = useSelector((state) => state.filtered_product);
-  // const { loading, filtered_products } = product;
+  const { loading, filtered_products } = product;
   // console.log(product);
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: [] },
@@ -77,13 +77,14 @@ const Shop = () => {
           <h2 className="mb-4">Products</h2>
           {/* {console.log(product)}
           {JSON.stringify(product.filtered_products)} */}
-          {/* {product.loading
-            ? "wait"
-            : product.filtered_products.product.map((product, i) => (
+          <div className="row">
+            {!loading &&
+              filtered_products.product.map((product, i) => (
                 <div key={i} className="col-4 mb-3">
                   <Card product={product} />
                 </div>
-              ))} */}
+              ))}
+          </div>
           {
             <button onClick={loadmore()} className="btn btn-warning mb-5">
               Load more

@@ -5,6 +5,7 @@ import {
   PRODUCTS_DYNAMIC_SEARCH,
 } from "./types";
 import axios from "axios";
+import queryString from "query-string";
 import { setAlert } from "./alert";
 
 export const addproduct = (formdata) => async (dispatch) => {
@@ -68,11 +69,12 @@ export const filtered_product = (skip, limit, filters = {}) => async (
   }
 };
 
-export const dynamicproduct = () => async (dispatch) => {
+export const dynamicproduct = (params) => async (dispatch) => {
+  const query = queryString.stringify(params);
   try {
-    const res = await axios.get(`/api/products?sortBy=&order=desc&limit=5`);
+    const res = await axios.get(`/api/products/search?${query}`);
     dispatch({
-      type: PRODUCTS_BY_CATEGORY,
+      type: PRODUCTS_DYNAMIC_SEARCH,
       payload: res.data,
     });
   } catch (error) {

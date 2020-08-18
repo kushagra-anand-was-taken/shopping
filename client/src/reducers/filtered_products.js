@@ -1,7 +1,7 @@
 import { PRODUCTS_BY_SEARCH, PRODUCTS_DYNAMIC_SEARCH } from "../action/types";
 
 const initialState = {
-  filterd_products: {},
+  filtered_products: {},
   loading: true,
 };
 
@@ -13,14 +13,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
-        filterd_products: payload,
+        filtered_products: payload,
       };
 
     case PRODUCTS_DYNAMIC_SEARCH:
       return {
         ...state,
         loading: false,
-        filterd_products: payload,
+        filtered_products: payload,
       };
 
     default:
