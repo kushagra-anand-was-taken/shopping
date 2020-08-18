@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import axios from "axios";
-import { result } from "lodash";
 
 const ShowImage = ({ item }) => {
   const res = axios({
@@ -11,10 +10,10 @@ const ShowImage = ({ item }) => {
       productid: item._id,
     },
   });
-  res
-    .then((result) => console.log(result))
-    .catch((error) => console.log(error));
-  const imgFile = new Blob([result]);
+  // res
+  //   .then((result) => console.log(result))
+  //   .catch((error) => console.log(error));
+  const imgFile = new Blob([res.data]);
   const imgUrl = URL.createObjectURL(imgFile);
   //   console.log(res);
   //   console.log(imgFile);

@@ -6,16 +6,22 @@ import { addcategories } from "../../action/category";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../component/layout/Card";
 import { prices } from "./fixedPrices";
+import { filtered_product } from "../../action/product";
 
 const Shop = () => {
+  const [limit, setlimit] = useState();
+  const [skip, setskip] = useState(0);
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.categories);
-
+  const product = useSelector((state) => state.filtered_product);
+  // const { loading, filtered_products } = product;
+  // console.log(product);
   const [myFilters, setMyFilters] = useState({
     filters: { category: [], price: [] },
   });
   useEffect(() => {
     dispatch(addcategories());
+    dispatch(filtered_product(skip, limit, myFilters.filters));
   }, []);
   const handleprice = (filters) => {
     const data = prices;
@@ -28,16 +34,19 @@ const Shop = () => {
     return array;
   };
 
+  const loadmore = () => {};
+
   const handleFilter = (filters, filterBy) => {
     // console.log("shop", filters, filterBy);
     const newfilters = { ...myFilters };
 
     newfilters.filters[filterBy] = filters;
     setMyFilters(newfilters);
-    if ((filterBy = "price")) {
+    if (filterBy === "price") {
       let pricevalue = handleprice(filters);
       newfilters.filters[filterBy] = pricevalue;
     }
+    dispatch(filtered_product(skip, limit, myFilters.filters));
   };
   return (
     <Layout
@@ -64,7 +73,23 @@ const Shop = () => {
             }
           />
         </div>
-        <div className="col-8 ">{JSON.stringify(myFilters)}</div>
+        <div className="col-8 ">
+          <h2 className="mb-4">Products</h2>
+          {/* {console.log(product)}
+          {JSON.stringify(product.filtered_products)} */}
+          {/* {product.loading
+            ? "wait"
+            : product.filtered_products.product.map((product, i) => (
+                <div key={i} className="col-4 mb-3">
+                  <Card product={product} />
+                </div>
+              ))} */}
+          {
+            <button onClick={loadmore()} className="btn btn-warning mb-5">
+              Load more
+            </button>
+          }
+        </div>
       </div>
     </Layout>
   );

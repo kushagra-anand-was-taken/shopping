@@ -3,6 +3,7 @@ import Layout from "../layout/layout";
 import { Productbysell } from "../../action/product";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../component/layout/Card";
+import Search from "../layout/Search";
 const Home = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
@@ -12,7 +13,8 @@ const Home = () => {
   }, []);
   return (
     <Layout title="HOME" description="Home page" className="container-fluid">
-      <h2 className="mb-4">Final List</h2>
+      <Search />
+      <h2 className="mb-4">New Arrival</h2>
       <div className="row">
         {products.map((product) => (
           <div className="col-4 mb-3">
