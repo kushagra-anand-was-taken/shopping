@@ -1,7 +1,13 @@
-import { ADD_PRODUCTS, PRODUCTS_BY_CATEGORY } from "../action/types";
+import {
+  ADD_PRODUCTS,
+  PRODUCTS_BY_CATEGORY,
+  SINGLE_PRODUCT,
+  RELATED_PRODUCT,
+} from "../action/types";
 
 const initialState = {
   products: [],
+  related_products: [],
   product: null,
   loading: true,
 };
@@ -24,6 +30,19 @@ export default function (state = initialState, action) {
         products: payload,
       };
 
+    case SINGLE_PRODUCT:
+      return {
+        ...state,
+        product: payload,
+        loading: false,
+      };
+
+    case RELATED_PRODUCT:
+      return {
+        ...state,
+        related_products: payload,
+        loading: false,
+      };
     default:
       return state;
   }

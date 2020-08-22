@@ -1,8 +1,10 @@
 import { PRODUCTS_BY_SEARCH, PRODUCTS_DYNAMIC_SEARCH } from "../action/types";
 
 const initialState = {
-  filtered_products: {},
+  searched_products: [],
+  filtered_products: [],
   loading: true,
+  search_loading: true,
 };
 
 export default function (state = initialState, action) {
@@ -19,8 +21,8 @@ export default function (state = initialState, action) {
     case PRODUCTS_DYNAMIC_SEARCH:
       return {
         ...state,
-        loading: false,
-        filtered_products: payload,
+        search_loading: false,
+        searched_products: payload,
       };
 
     default:

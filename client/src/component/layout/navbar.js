@@ -63,6 +63,20 @@ const Navbar = () => {
           </>
         )}
 
+        {isAuthenticated && (
+          <>
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                style={isActive(history, "/cart")}
+                to="/cart"
+              >
+                Cart
+              </Link>
+            </li>
+          </>
+        )}
+
         {isAuthenticated && user && user.role === 1 && (
           <li className="nav-item">
             <Link

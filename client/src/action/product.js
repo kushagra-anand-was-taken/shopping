@@ -3,7 +3,11 @@ import {
   PRODUCTS_BY_CATEGORY,
   PRODUCTS_BY_SEARCH,
   PRODUCTS_DYNAMIC_SEARCH,
+  SINGLE_PRODUCT,
+  RELATED_PRODUCT,
 } from "./types";
+import api from "../utils/api";
+import setAuthToken from "../utils/setAuthToken";
 import axios from "axios";
 import queryString from "query-string";
 import { setAlert } from "./alert";
@@ -75,6 +79,39 @@ export const dynamicproduct = (params) => async (dispatch) => {
     const res = await axios.get(`/api/products/search?${query}`);
     dispatch({
       type: PRODUCTS_DYNAMIC_SEARCH,
+      payload: res.data,
+    });
+  } catch (error) {
+    const errors = error.response.data.error;
+    dispatch(setAlert(errors, "danger"));
+  }
+};
+
+export const single_product = (id) => async (dispatch) => {
+  setAuthToken(localStorage.token);
+  try {
+    const res = await api.get(`/product/${id}`);
+    dispatch({
+      type: SINGLE_PRODUCT,
+      payload: res.data,
+    });
+  } catch (error) {
+    const errors = error.response.data.error;
+    dispatch(setAlert(errors, "danger"));
+  }
+};
+
+export const related_product = (id) => async (dispatch) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: "/api/products/related",
+      headers: {
+        productid: id,
+      },
+    });
+    dispatch({
+      type: RELATED_PRODUCT,
       payload: res.data,
     });
   } catch (error) {

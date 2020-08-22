@@ -6,6 +6,8 @@ import Signin from "./component/sign/signin";
 import Signup from "./component/sign/signup";
 import Home from "./component/sign/home";
 import Shop from "./component/miscellaneous/Shop";
+import Cart from "./component/miscellaneous/Cart";
+import Singleproduct from "./component/miscellaneous/singleproduct";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import AddCategory from "./component/admin/AddCategory";
@@ -22,6 +24,8 @@ const route = () => {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/" component={Home} />
         <Route exact path="/shop" component={Shop} />
+        <Route exact path="/cart" component={Cart} />
+        <Route exact path="/product/:productid" component={Singleproduct} />
       </Switch>
     </BrowserRouter>
   );
