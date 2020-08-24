@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addcategories } from "../../action/category";
 import { dynamicproduct } from "../../action/product";
-import { setAlert } from "../../action/alert";
+
 import Card from "./Card";
-import ShowImage from "./ShowImage";
 
 const Search = () => {
   const [inp, setinp] = useState({ category: "", search: "" });

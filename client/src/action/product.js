@@ -82,8 +82,9 @@ export const dynamicproduct = (params) => async (dispatch) => {
       payload: res.data,
     });
   } catch (error) {
-    const errors = error.response.data.error;
-    dispatch(setAlert(errors, "danger"));
+    console.log(error);
+    // const errors = error.response.data.error;
+    // dispatch(setAlert(errors, "danger"));
   }
 };
 

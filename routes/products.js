@@ -95,9 +95,9 @@ router.post("/by/search", async (req, res) => {
 });
 
 router.get("/photo", loadproduct, (req, res) => {
-  if (req.product.photo.data) {
-    res.set("Content-Type", req.product.photo.contentType);
-    return res.send(req.product.photo.data);
+  if (req.product.photo) {
+    // res.set("Content-Type", req.product.photo.contentType);
+    return res.send(req.product.photo);
   }
 });
 

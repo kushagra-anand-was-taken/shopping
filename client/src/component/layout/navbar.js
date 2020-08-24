@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../action/auth";
+import { itemTotal } from "../miscellaneous/cartHelpers";
 
 const Navbar = () => {
   let history = useHistory();
@@ -72,6 +73,9 @@ const Navbar = () => {
                 to="/cart"
               >
                 Cart
+                <sup>
+                  <small className="cart-badge">{itemTotal()}</small>
+                </sup>
               </Link>
             </li>
           </>

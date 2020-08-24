@@ -33,7 +33,7 @@ const AddProduct = () => {
     category,
     shipping,
     quantity,
-
+    photo,
     createdProduct,
 
     formData,
@@ -46,13 +46,41 @@ const AddProduct = () => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
+    // console.log(formData);
     dispatch(addproduct(formData));
   };
 
   const handleChange = (name) => (event) => {
-    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    const value = event.target.value;
     formData.set(name, value);
     setValues({ ...values, [name]: value });
+  };
+
+  const handlePhoto = (name) => (event) => {
+    // console.log(event.target.files);
+    const value = event.target.files[0];
+    // console.log(value);
+    formData.set(name, value);
+    setValues({ ...values, [name]: value });
+
+    const data = new FormData();
+    // console.log(photo);
+    data.append("file", value);
+    data.append("upload_preset", "shopping");
+    data.append("cloud_name", "dbsrz3obq");
+    // console.log(data);
+    fetch("https://api.cloudinary.com/v1_1/dbsrz3obq/upload", {
+      method: "post",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data.url);
+        formData.set("photo", data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const newProductForm = () => (
@@ -61,7 +89,7 @@ const AddProduct = () => {
       <div className="form-group">
         <label className="btn btn-secondary">
           <input
-            onChange={handleChange("photo")}
+            onChange={handlePhoto("photo")}
             type="file"
             name="photo"
             accept="image/*"
