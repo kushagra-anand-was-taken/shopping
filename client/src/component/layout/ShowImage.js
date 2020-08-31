@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import axios from "axios";
 
 const ShowImage = ({ item }) => () => {
-  const res = axios({
-    method: "get",
-    url: "/api/products/photo",
-    // responseType: "arraybuffer", //arraybuffer
-    headers: {
-      productid: item._id,
-    },
-  });
-  console.log(res.data);
+  // const res = axios({
+  //   method: "get",
+  //   url: "/api/products/photo",
+  //   // responseType: "arraybuffer", //arraybuffer
+  //   headers: {
+  //     productid: item._id,
+  //   },
+  // });
+  // console.log(res.data);
   // res
   //   .then((result) => console.log(result))
   //   .catch((error) => console.log(error));
@@ -23,7 +23,7 @@ const ShowImage = ({ item }) => () => {
   return (
     <div className="product-img">
       <img
-        src={res.data}
+        src={item.photo}
         alt={item.name}
         className="mb-3"
         style={{ maxHeight: "100%", maxWidth: "100%" }}

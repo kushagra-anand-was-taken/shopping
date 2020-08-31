@@ -5,7 +5,7 @@ import { register } from "../../action/auth";
 import { useDispatch, useSelector } from "react-redux";
 
 const Signup = () => {
-  const initialState = { name: "", email: "", password: "" };
+  const initialState = { name: "", email: "", password: "", role: 0 };
   const [values, setValues] = useState(initialState);
   const { name, email, password } = values;
   const auth = useSelector((state) => state.auth);
@@ -53,7 +53,15 @@ const Signup = () => {
           value={password}
         />
       </div>
-      <button onClick={(e) => clickSubmit(e)} className="btn btn-primary">
+      <div class="form-check pb-3">
+        <input
+          onClick={() => setValues({ ...values, role: 1 })}
+          type="checkbox"
+          class="form-check-input"
+        />
+        <label class="form-check-label">Click if you want to be Admin</label>
+      </div>
+      <button onClick={(e) => clickSubmit(e)} className="btn btn-primary ">
         Submit
       </button>
     </form>

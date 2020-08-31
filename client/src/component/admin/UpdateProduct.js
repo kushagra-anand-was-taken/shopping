@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { addproduct } from "../../action/product";
 import { addcategories } from "../../action/category";
 import { Redirect } from "react-router-dom";
+import Axios from "axios";
 
-const AddProduct = () => {
+const UpdateProduct = ({ match }) => {
+  //   const [product, setProduct] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const alerts = useSelector((state) => state.alert);
@@ -14,7 +16,7 @@ const AddProduct = () => {
 
   const shouldRedirect = (redirect) => {
     if (redirect) {
-      return <Redirect to="/shop" />;
+      return <Redirect to="/" />;
     }
   };
   const [values, setValues] = useState({
@@ -46,7 +48,41 @@ const AddProduct = () => {
     formData,
   } = values;
 
+  const first = async (id) => {
+    const res = await Axios({
+      method: "get",
+      url: `/api/product/${id}`,
+      headers: {
+        "x-auth-token": localStorage.token,
+      },
+    });
+    const prod = res.data;
+    setValues({
+      ...values,
+      name: prod.name,
+      description: prod.description,
+      price: prod.price,
+      category: prod.category,
+      shipping: prod.shipping,
+      quantity: prod.quantity,
+    });
+  };
+
+  const UpdateProduct = () => {
+    return Axios({
+      method: "put",
+      url: "/api/product/create",
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "x-auth-token": localStorage.token,
+        productid: match.params.id,
+      },
+    });
+  };
+
   useEffect(() => {
+    first(match.params.id);
     setValues({ ...values, formData: new FormData() });
     dispatch(addcategories());
   }, []);
@@ -54,13 +90,13 @@ const AddProduct = () => {
   const clickSubmit = (e) => {
     e.preventDefault();
     // console.log(formData);
-    dispatch(addproduct(formData));
+    UpdateProduct();
     setRedirect(true);
   };
 
   const handleChange = (name) => (event) => {
     const value = event.target.value;
-    formData.set(name, value);
+    // formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
@@ -68,7 +104,7 @@ const AddProduct = () => {
     // console.log(event.target.files);
     const value = event.target.files[0];
     // console.log(value);
-    formData.set(name, value);
+    // formData.set(name, value);
     setValues({ ...values, [name]: value });
 
     const data = new FormData();
@@ -168,7 +204,7 @@ const AddProduct = () => {
         />
       </div>
 
-      <button className="btn btn-outline-primary">Create Product</button>
+      <button className="btn btn-outline-primary">Update Product</button>
     </form>
   );
 
@@ -194,4 +230,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

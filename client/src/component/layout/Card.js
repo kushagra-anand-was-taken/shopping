@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import moment from "moment";
-import ShowImage from "../../component/layout/ShowImage";
+// import ShowImage from "../../component/layout/ShowImage";
 import { addItem, updateItem, removeItem } from "../miscellaneous/cartHelpers";
 
 const Card = ({
@@ -108,7 +108,16 @@ const Card = ({
       <div className="card-header card-header-1 ">{product.name}</div>
       <div className="card-body">
         {shouldRedirect(redirect)}
-        <ShowImage item={product} />
+
+        <div className="product-img">
+          <img
+            src={product.photo}
+            alt={product.name}
+            className="mb-3"
+            style={{ maxHeight: "100%", maxWidth: "100%" }}
+          />
+        </div>
+
         <p className="card-p  mt-2">{product.description.substring(0, 100)} </p>
         <p className="card-p black-10">$ {product.price}</p>
         <p className="black-9">

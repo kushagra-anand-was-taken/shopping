@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
     let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
     let limit = req.query.limit ? parseInt(req.query.limit) : 6;
     const products = await Product.find()
-      .select("-photo")
+
       .populate("category")
       .sort([[sortBy, order]])
       .limit(limit);
@@ -30,7 +30,7 @@ router.get("/related", loadproduct, async (req, res) => {
       _id: { $ne: req.product },
       category: req.product.category,
     })
-      .select("-photo")
+
       .limit(limit)
       .populate("category", "_id name");
     res.json(relproduct);
@@ -78,7 +78,7 @@ router.post("/by/search", async (req, res) => {
     }
 
     const product = await Product.find(findArgs)
-      .select("-photo")
+
       .populate("category")
       .sort([[sortBy, order]])
       .skip(skip)
@@ -120,7 +120,7 @@ router.get("/search", (req, res) => {
         });
       }
       res.json(products);
-    }).select("-photo");
+    });
   }
 });
 

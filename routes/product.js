@@ -74,9 +74,7 @@ router.post("/create", auth, (req, res) => {
 
 router.get("/:productid", auth, async (req, res) => {
   try {
-    const product = await Product.findById(req.params.productid).select(
-      "-photo"
-    );
+    const product = await Product.findById(req.params.productid);
     // product.photo = undefined;
     res.json(product);
   } catch (error) {
@@ -131,16 +129,16 @@ router.put("/update", [auth, loadproduct], async (req, res) => {
     // 1kb = 1000
     // 1mb = 1000000
 
-    if (files.photo) {
-      // console.log("FILES PHOTO: ", files.photo);
-      if (files.photo.size > 1000000) {
-        return res.status(400).json({
-          error: "Image should be less than 1mb in size",
-        });
-      }
-      product.photo.data = fs.readFileSync(files.photo.path);
-      product.photo.contentType = files.photo.type;
-    }
+    // if (files.photo) {
+    //   // console.log("FILES PHOTO: ", files.photo);
+    //   if (files.photo.size > 1000000) {
+    //     return res.status(400).json({
+    //       error: "Image should be less than 1mb in size",
+    //     });
+    //   }
+    //   product.photo.data = fs.readFileSync(files.photo.path);
+    //   product.photo.contentType = files.photo.type;
+    // }
 
     product.save((err, result) => {
       if (err) {
