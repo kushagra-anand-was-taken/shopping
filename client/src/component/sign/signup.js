@@ -3,6 +3,7 @@ import Layout from "../layout/layout";
 import { Redirect } from "react-router-dom";
 import { register } from "../../action/auth";
 import { useDispatch, useSelector } from "react-redux";
+import GoogleLoginButton from "./googleLoginButton";
 
 const Signup = () => {
   const initialState = { name: "", email: "", password: "", role: 0 };
@@ -16,6 +17,11 @@ const Signup = () => {
 
   const handleChange = (data) => (e) => {
     setValues({ ...values, [data]: e.target.value });
+  };
+
+  const googlechange = (email, password, name) => {
+    setValues({ ...values, name, email, password });
+    clickSubmit();
   };
 
   const clickSubmit = (e) => {
@@ -53,17 +59,25 @@ const Signup = () => {
           value={password}
         />
       </div>
-      <div class="form-check pb-3">
+      <div className="form-check pb-3">
         <input
           onClick={() => setValues({ ...values, role: 1 })}
           type="checkbox"
-          class="form-check-input"
+          className="form-check-input"
         />
-        <label class="form-check-label">Click if you want to be Admin</label>
+        <label className="form-check-label">
+          Click if you want to be Admin
+        </label>
       </div>
-      <button onClick={(e) => clickSubmit(e)} className="btn btn-primary ">
-        Submit
-      </button>
+      <div style={{ display: "flex" }}>
+        <button
+          onClick={(e) => clickSubmit(e)}
+          className="btn btn-primary mr-5"
+        >
+          Submit
+        </button>
+        <GoogleLoginButton googlechange={googlechange} />
+      </div>
     </form>
   );
 

@@ -3,6 +3,7 @@ import Layout from "../layout/layout";
 import { Redirect } from "react-router-dom";
 import { login } from "../../action/auth";
 import { useDispatch, useSelector } from "react-redux";
+import GoogleLoginButton from "./googleLoginButton";
 
 const Signin = () => {
   const initialState = { email: "kushrokz95@gmail.com", password: "qwerty1" };
@@ -16,6 +17,11 @@ const Signin = () => {
 
   const handleChange = (data) => (e) => {
     setValues({ ...values, [data]: e.target.value });
+  };
+
+  const googlechange = (email, password) => {
+    setValues({ ...values, email, password });
+    clickSubmit();
   };
 
   const clickSubmit = (e) => {
@@ -43,9 +49,15 @@ const Signin = () => {
           value={password}
         />
       </div>
-      <button onClick={(e) => clickSubmit(e)} className="btn btn-primary">
-        Submit
-      </button>
+      <div style={{ display: "flex" }}>
+        <button
+          onClick={(e) => clickSubmit(e)}
+          className="btn btn-primary mr-5"
+        >
+          Submit
+        </button>
+        <GoogleLoginButton googlechange={googlechange} />
+      </div>
     </form>
   );
 
