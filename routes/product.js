@@ -121,6 +121,8 @@ router.put("/update", [auth, loadproduct], async (req, res) => {
     // let product = Product.findById(req.params.productid);
     let product = req.product;
     // console.log(product);
+    console.log(product);
+    console.log(fields);
 
     product = _.extend(product, fields);
     // console.log(product);

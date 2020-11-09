@@ -71,7 +71,7 @@ const UpdateProduct = ({ match }) => {
   const UpdateProduct = () => {
     return Axios({
       method: "put",
-      url: "/api/product/create",
+      url: "/api/product/update",
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -96,7 +96,8 @@ const UpdateProduct = ({ match }) => {
 
   const handleChange = (name) => (event) => {
     const value = event.target.value;
-    // formData.set(name, value);
+    //console.log(value);
+    formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
@@ -104,7 +105,7 @@ const UpdateProduct = ({ match }) => {
     // console.log(event.target.files);
     const value = event.target.files[0];
     // console.log(value);
-    // formData.set(name, value);
+    formData.set(name, value);
     setValues({ ...values, [name]: value });
 
     const data = new FormData();

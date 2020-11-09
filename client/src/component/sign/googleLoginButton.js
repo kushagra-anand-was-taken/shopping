@@ -3,6 +3,7 @@ import GoogleLogin from "react-google-login";
 
 function googleLoginButton({ googlechange }) {
   const responseGoogle = (response) => {
+    // console.log(response);
     googlechange(
       response.profileObj.email,
       response.profileObj.googleId,
