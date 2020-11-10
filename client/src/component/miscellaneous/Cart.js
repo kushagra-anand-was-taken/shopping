@@ -5,6 +5,8 @@ import { getCart, emptyCart } from "./cartHelpers";
 import Card from "../layout/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { cartorder } from "../../action/order";
+import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
 
 const Cart = () => {
   const [items, setItems] = useState([]);
@@ -14,6 +16,7 @@ const Cart = () => {
 
   const dispatch = useDispatch();
   const alerts = useSelector((state) => state.alert);
+  const name = useSelector((state) => state.auth.user?.name);
 
   useEffect(() => {
     setItems(getCart());
@@ -68,6 +71,23 @@ const Cart = () => {
 
   const getRandomInt = (max) => Math.floor(Math.random() * Math.floor(max));
 
+  async function handleToken(token) {
+    const data = {
+      products: items,
+      transaction_id: getRandomInt(10000),
+      amount: items.reduce((acc, cur) => acc + cur.count * cur.price, 0),
+      address,
+    };
+    const response = await axios.post("/checkout", { token, data });
+    const { status } = response.data;
+
+    if (status === "success") {
+      dispatch(cartorder(data));
+      emptyCart();
+      setRun(!run);
+    }
+  }
+
   return (
     <Layout
       title="Shopping Cart"
@@ -93,12 +113,25 @@ const Cart = () => {
                 {alert.msg}
               </div>
             ))}
-          <div id="cod" className="pt-5">
-            <label className="switch ">
-              <input onClick={() => toggleHandler()} type="checkbox" />
-              <span className="slider round"></span>
-            </label>
-            <h4 className="pl-5">CASH ON DELIVERY</h4>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div id="cod" className="pt-5 mb-5">
+              <label className="switch ">
+                <input onClick={() => toggleHandler()} type="checkbox" />
+                <span className="slider round"></span>
+              </label>
+              <h4 className="pl-5">CASH ON DELIVERY</h4>
+            </div>
+            <StripeCheckout
+              stripeKey="pk_test_51Hly6dGagzp60v4FVdviZ65ityloEBZD6Kfdsaa4YB7F8YQ1JojH5QlaafU31A4IFYz0maiJWmDWDYuJN9swh5wG00HjEDVFt8"
+              token={handleToken}
+              currency="INR"
+              amount={
+                items.reduce((acc, cur) => acc + cur.count * cur.price, 0) * 100
+              }
+              name={`${name}'s Bill`}
+              billingAddress
+              shippingAddress
+            />
           </div>
 
           {toggle && (
