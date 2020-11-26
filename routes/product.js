@@ -3,7 +3,7 @@ const _ = require("lodash");
 const fs = require("fs");
 const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
+
 const auth = require("../middleware/auth");
 const loadproduct = require("../middleware/loadproduct");
 const Product = require("../models/Product");
@@ -103,7 +103,7 @@ router.delete("/:id", auth, async (req, res) => {
 });
 
 router.put("/update", [auth, loadproduct], async (req, res) => {
-  let form = new formidable.IncomingForm();
+  /*let form = new formidable.IncomingForm();
 
   form.keepExtensions = true;
   form.parse(req, (err, fields, files) => {
@@ -111,46 +111,49 @@ router.put("/update", [auth, loadproduct], async (req, res) => {
       return res.status(400).json({
         error: "Image could not be uploaded",
       });
+    }*/
+  // console.log(fields, files);
+  // const id = req.params.productid;
+  // let product = Product.findByIdAndUpdate(id, fields, {
+  //   new: true,
+  //   upsert: true,
+  // });
+  // let product = Product.findById(req.params.productid);
+  let product = req.product;
+  // console.log(product);
+  // console.log(product);
+  // console.log(fields);
+  // console.log(req.body);
+
+  product = _.extend(product, req.body);
+  // console.log(req);
+  // console.log(product);
+  // console.log(fields);
+
+  // 1kb = 1000
+  // 1mb = 1000000
+
+  // if (files.photo) {
+  //   // console.log("FILES PHOTO: ", files.photo);
+  //   if (files.photo.size > 1000000) {
+  //     return res.status(400).json({
+  //       error: "Image should be less than 1mb in size",
+  //     });
+  //   }
+  //   product.photo.data = fs.readFileSync(files.photo.path);
+  //   product.photo.contentType = files.photo.type;
+  // }
+
+  product.save((err, result) => {
+    if (err) {
+      console.log("error hua");
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
     }
-    // console.log(fields, files);
-    // const id = req.params.productid;
-    // let product = Product.findByIdAndUpdate(id, fields, {
-    //   new: true,
-    //   upsert: true,
-    // });
-    // let product = Product.findById(req.params.productid);
-    let product = req.product;
-    // console.log(product);
-    console.log(product);
-    console.log(fields);
-
-    product = _.extend(product, fields);
-    // console.log(product);
-    // console.log(fields);
-
-    // 1kb = 1000
-    // 1mb = 1000000
-
-    // if (files.photo) {
-    //   // console.log("FILES PHOTO: ", files.photo);
-    //   if (files.photo.size > 1000000) {
-    //     return res.status(400).json({
-    //       error: "Image should be less than 1mb in size",
-    //     });
-    //   }
-    //   product.photo.data = fs.readFileSync(files.photo.path);
-    //   product.photo.contentType = files.photo.type;
-    // }
-
-    product.save((err, result) => {
-      if (err) {
-        return res.status(400).json({
-          error: errorHandler(err),
-        });
-      }
-      res.json(result);
-    });
+    res.json(result);
   });
+  // });
 });
 
 module.exports = router;

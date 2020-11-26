@@ -23,29 +23,20 @@ const UpdateProduct = ({ match }) => {
     name: "",
     description: "",
     price: "",
-    categories: [],
     category: "",
     shipping: "",
     quantity: "",
     photo: "",
-
-    createdProduct: "",
-
-    formData: "",
   });
 
   const {
     name,
     description,
     price,
-    categories,
     category,
     shipping,
     quantity,
     photo,
-    createdProduct,
-
-    formData,
   } = values;
 
   const first = async (id) => {
@@ -68,13 +59,13 @@ const UpdateProduct = ({ match }) => {
     });
   };
 
-  const UpdateProduct = () => {
+  const UpdateTheProduct = () => {
     return Axios({
       method: "put",
       url: "/api/product/update",
-      data: formData,
+      data: values,
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         "x-auth-token": localStorage.token,
         productid: match.params.id,
       },
@@ -83,21 +74,22 @@ const UpdateProduct = ({ match }) => {
 
   useEffect(() => {
     first(match.params.id);
-    setValues({ ...values, formData: new FormData() });
+    // setValues({ ...values, formData: new FormData() });
     dispatch(addcategories());
   }, []);
 
   const clickSubmit = (e) => {
     e.preventDefault();
     // console.log(formData);
-    UpdateProduct();
+    // console.log(values);
+    UpdateTheProduct();
     setRedirect(true);
   };
 
   const handleChange = (name) => (event) => {
     const value = event.target.value;
-    //console.log(value);
-    formData.set(name, value);
+    // console.log(value);
+    // formData.set(name, value);
     setValues({ ...values, [name]: value });
   };
 
@@ -105,8 +97,8 @@ const UpdateProduct = ({ match }) => {
     // console.log(event.target.files);
     const value = event.target.files[0];
     // console.log(value);
-    formData.set(name, value);
-    setValues({ ...values, [name]: value });
+    // formData.set(name, value);
+    // setValues({ ...values, [name]: value });
 
     const data = new FormData();
     // console.log(photo);
@@ -120,8 +112,9 @@ const UpdateProduct = ({ match }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data.url);
-        formData.set("photo", data.url);
+        console.log(data.url);
+        // formData.set("photo", data.url);
+        setValues({ ...values, photo: data.url });
       })
       .catch((err) => {
         console.log(err);
