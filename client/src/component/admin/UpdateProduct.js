@@ -50,6 +50,7 @@ const UpdateProduct = ({ match }) => {
     const prod = res.data;
     setValues({
       ...values,
+      photo: prod.photo,
       name: prod.name,
       description: prod.description,
       price: prod.price,
@@ -94,6 +95,7 @@ const UpdateProduct = ({ match }) => {
   };
 
   const handlePhoto = (name) => (event) => {
+    // console.log("in here");
     // console.log(event.target.files);
     const value = event.target.files[0];
     // console.log(value);
@@ -112,9 +114,9 @@ const UpdateProduct = ({ match }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.url);
+        // console.log(data.url);
         // formData.set("photo", data.url);
-        setValues({ ...values, photo: data.url });
+        setValues({ ...values, [name]: data.url });
       })
       .catch((err) => {
         console.log(err);
